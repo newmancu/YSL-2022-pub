@@ -1,6 +1,6 @@
 from numpy import source
 from rest_framework.serializers import ModelField, ValidationError
-from back_api.models import ShopUnitBase
+from back_api.models import ShopUnitBase, ShopUnitHistory
 from rest_framework import serializers
 from back_api import models
 
@@ -103,6 +103,46 @@ class ShopUnit(serializers.ModelSerializer):
 
 
 """Other classes for statistic"""
+
+
+class ShopInitStatisticUnit(serializers.ModelSerializer):
+
+  parentId = ModelField(ShopUnitBase._meta.get_field('parent_id'), source='parent_id', allow_null=True)
+  type = ModelField(ShopUnitBase._meta.get_field('_type'), source='_type')
+  date = serializers.SerializerMethodField()
+
+  def get_date(self, obj):
+    # this function needs only for passing tests
+    # ISO-8601 %f - microseconds, not milliseconds
+    return obj.date.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
+
+  class Meta:
+    fields = ('id','name','date','parentId','type','price')
+    model = models.ShopUnitBase
+
+
+class ShopUnitStatisticResponse(serializers.Serializer):
+  items = ShopInitStatisticUnit(many=True)
+
+
+class ShopInitHistoryStatisticUnit(serializers.ModelSerializer):
+
+  parentId = ModelField(ShopUnitHistory._meta.get_field('parent_id'), source='parent_id', allow_null=True)
+  type = ModelField(ShopUnitHistory._meta.get_field('_type'), source='_type')
+  date = serializers.SerializerMethodField()
+
+  def get_date(self, obj):
+    # this function needs only for passing tests
+    # ISO-8601 %f - microseconds, not milliseconds
+    return obj.date.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
+
+  class Meta:
+    fields = ('id','name','date','parentId','type','price')
+    model = models.ShopUnitHistory
+
+
+class ShopUnitHistoryStatisticResponse(serializers.Serializer):
+  items = ShopInitHistoryStatisticUnit(many=True)
 
 
 ERROR_400 = {

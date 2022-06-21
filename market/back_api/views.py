@@ -4,8 +4,10 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework import mixins
 from rest_framework import status
+from datetime import timedelta
 from back_api import models
 from back_api import serializers
+from back_api.converters import DateTimeConverter
 
 class ShopUnitGenerics(
   GenericAPIView,
@@ -45,6 +47,7 @@ class ShopUnitView(APIView):
       print(ser._errors)
       return Response(data=serializers.ERROR_400, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['DELETE'])
 def shop_unit_delete(request, id):
   try:
@@ -66,4 +69,43 @@ def shop_unit_nodes(request, id):
   except models.ShopUnitBase.DoesNotExist:
     return Response(data=serializers.ERROR_404, status=status.HTTP_404_NOT_FOUND)
 
-# Create your views here.
+
+@api_view(['GET'])
+def shop_unit_sales(request):
+  try:
+    date = DateTimeConverter().to_python(request.GET.get('date'))
+    objs = models.ShopUnitBase.objects.filter(
+      date__gte=date - timedelta(days=1), 
+      date__lte=date,
+      _type=models.UNIT_TYPES[0][0]
+    )
+    ser = serializers.ShopUnitStatisticResponse(instance={'items': objs})
+    return Response(data=ser.data, status=status.HTTP_200_OK)
+  except ValueError:
+    return Response(data=serializers.ERROR_400, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def shop_unit_node_statistic(request, id):
+  try:
+    dtconverter = DateTimeConverter()
+    dateStart = dtconverter.to_python(request.GET.get('dateStart'))
+    dateEnd = dtconverter.to_python(request.GET.get('dateEnd'))
+    
+    if dateEnd <= dateStart:
+      return Response(data=serializers.ERROR_400, status=status.HTTP_400_BAD_REQUEST)
+
+    query = models.ShopUnitHistory.objects.filter(id=id)
+    f_query = query.first()
+    if f_query is None or f_query.is_deleted():
+      return Response(data=serializers.ERROR_404, status=status.HTTP_404_NOT_FOUND)
+    objs = query.filter(
+      date__gte=dateStart,
+      date__lt=dateEnd
+    )
+    ser = serializers.ShopUnitHistoryStatisticResponse(instance={'items': objs})
+
+    return Response(data=ser.data, status=status.HTTP_200_OK)
+  except Exception as exp:
+    print(exp)
+    return Response(data=serializers.ERROR_400, status=status.HTTP_400_BAD_REQUEST)

@@ -9,12 +9,14 @@ UNIT_TYPES = (
   ('CATEGORY', 'CATEGORY')
 )
 
+
 class MyMinValueValidator(MinValueValidator):
   def compare(self, a, b) -> bool:
     if a is None or b is None:
       return True
     return super().compare(a, b)
 
+  
 class ShopUnitBase(models.Model):
   id = models.UUIDField(
     primary_key=True,
@@ -88,12 +90,65 @@ class ShopUnitBase(models.Model):
       return None
     return sum//count
     
+  def __add_to_history(self):
+    # saving history of updates
+    data = {field.name:getattr(self,field.name) for field in self._meta.fields}
+    if data['parent_id'] is not None:
+      data['parent_id'] = data['parent_id'].id
+    ShopUnitHistory.objects.create(**data)
+
   def deep_delete(self):
+    self.__add_to_history()
     self.delete()
 
   def save(self, *args, **kwargs):
+    self.__add_to_history()
     if self.parent_id is not None:
       c = ShopUnitBase.objects.get(id=self.parent_id.id)
       c.date = self.date
       c.save()
     return super(ShopUnitBase, self).save(*args, **kwargs)
+
+
+class ShopUnitHistory(models.Model):
+  row_pk = models.BigAutoField(
+    primary_key=True
+  )
+
+  id = models.UUIDField(
+    default=uuid4
+  )
+
+  name = models.CharField(
+    max_length=256
+  )
+
+  date = models.DateTimeField(
+    
+  )
+
+  price = models.BigIntegerField(
+    null=True,
+    blank=True,
+    validators=[MinValueValidator(0)]
+  )
+
+  parent_id = models.UUIDField(
+    null=True,
+    blank=True
+  )
+
+  _type = models.CharField(
+    max_length=16,
+    choices=UNIT_TYPES
+  )
+
+  def is_deleted(self):
+    return ShopUnitBase.objects.filter(id=self.id).first() is None
+
+  
+  def __repr__(self) -> str:
+    return f"{self.name} ({self.id})"
+
+  def __str__(self) -> str:
+    return self.__repr__()
