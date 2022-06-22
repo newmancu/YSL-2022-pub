@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  dbpostgres:
+    image: postgres
+    volumes:
+      - ./dbpostgres/:/var/lib/postgresql/
+      - ./scripts/:/docker-entrypoint-initdb.d/
+    ports:
+      - "5433:5433"
+    restart: always
+    environment:
+      POSTGRES_DB: web_db
+      POSTGRES_USER: web_db_user
+      POSTGRES_PASSWORD: web_db_password1234
+  web:
+    build: .
+    command: python ./market/manage.py runserver 0.0.0.0:80
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - dbpostgres
+    environment:
+      POSTGRES_DB_NAME: web_db
+      POSTGRES_DB_USER: web_db_user
+      POSTGRES_DB_PASSWORD: web_db_password1234

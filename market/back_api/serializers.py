@@ -1,4 +1,3 @@
-from numpy import source
 from rest_framework.serializers import ModelField, ValidationError
 from back_api.models import ShopUnitBase, ShopUnitHistory
 from rest_framework import serializers
