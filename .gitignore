@@ -2,4 +2,5 @@
 **/.vscode/*
 **/migrations/*
 **/secrets/*
+**/dbpostgres/data/*
 missunderstands.md
