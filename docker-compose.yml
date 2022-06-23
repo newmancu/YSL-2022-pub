@@ -15,7 +15,7 @@ services:
       POSTGRES_PASSWORD: web_db_password1234
   web:
     build: .
-    command: gunicorn --bind 0.0.0.0:80 market.wsig:application
+    command: gunicorn --bind 0.0.0.0:80 market.wsgi:application
     restart: always
     ports:
       - "80:80"
