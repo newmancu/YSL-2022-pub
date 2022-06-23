@@ -19,14 +19,19 @@ class LeveldDict:
       iid = item['id'] 
       pid = item['parent_id']
       
+      if iid in self.tree:
+        raise serializers.ValidationError('uuid dublication')
       self.tree[iid] = item
       if pid not in self.ptree:
         self.ptree[pid] = set()
       self.ptree[pid].add(iid)
 
     for key in self.tree:
-      if self.tree[key]['parent_id'] not in self.tree:
+      tpc = self.tree[key]['parent_id']
+      if tpc not in self.tree:
         self.__calc_lvl(key)
+      elif self.tree[tpc]['_type'] != models.UNIT_TYPES[1][0]:
+        raise serializers.ValidationError('%s as parent' % models.UNIT_TYPES[1][0])
 
   def __calc_lvl(self, root_id):
     queue = [(root_id, 0)]
@@ -46,10 +51,10 @@ class ShopUnitView(APIView):
   # Class based view for '/imports'
   def post(self, request):
     ser = serializers.ShopUnitImportRequest(data=request.data)
+    to_save = []
     try:
       ser.is_valid(True)
       valid, validated_data = self._validate_imports(ser.validated_data['items'])
-
       if not valid:
         raise serializers.ValidationError()
       for validation_level in validated_data:
@@ -60,7 +65,11 @@ class ShopUnitView(APIView):
             data={'date':ser.validated_data['updateDate'], **item}
           )
           if model_ser.is_valid(True):
-            model_ser.save()
+            if (instance is not None and instance._type != model_ser.validated_data['_type']):
+              raise serializers.ValidationError()
+            to_save.append(model_ser)
+      for it in to_save:
+        it.save()
       return Response(status=status.HTTP_200_OK)
     except serializers.ValidationError:
       return Response(data=serializers.ERROR_400, status=status.HTTP_400_BAD_REQUEST)
@@ -71,8 +80,9 @@ class ShopUnitView(APIView):
     if len(pc_set[0]) <= 0:
       return False, {}
     for items in pc_set[0]:
+      pc = models.ShopUnitBase.objects.filter(pk=items['parent_id']).first()
       if items['parent_id'] is not None and \
-        models.ShopUnitBase.objects.filter(pk=items['parent_id']).first() is None:
+        (pc is None or pc._type != models.UNIT_TYPES[1][0]):
         return False, {}
     return True, pc_set
 
