@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 with open('/var/www/html/secrets/secret.env', 'r') as fp:
     SECRET_KEY = json.load(fp).get('SECRET_KEY')
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost',
