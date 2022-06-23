@@ -224,6 +224,7 @@ def test_import():
 def test_nodes():
     status, response = request(f"/nodes/{ROOT_ID}", json_response=True)
     # print(json.dumps(response, indent=2, ensure_ascii=False))
+    print(response)
 
     assert status == 200, f"Expected HTTP status code 200, got {status}"
 

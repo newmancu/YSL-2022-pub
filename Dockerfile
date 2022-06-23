@@ -4,6 +4,6 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 EXPOSE 80
-COPY ./market/ ./market/
-RUN chmod +x ./market/docker-entrypoint.sh
-ENTRYPOINT [ "./market/docker-entrypoint.sh" ]
+COPY ./market/ .
+RUN chmod +x ./docker-entrypoint.sh
+ENTRYPOINT [ "./docker-entrypoint.sh" ]
