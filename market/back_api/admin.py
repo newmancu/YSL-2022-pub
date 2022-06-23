@@ -1,7 +1,8 @@
 from django.contrib import admin
 from back_api.models import ShopUnitBase, ShopUnitHistory
 
-# Register your models here.
+# Register your models here.z
+
 class ShopUnitAdmin(admin.ModelAdmin):
   pass
 

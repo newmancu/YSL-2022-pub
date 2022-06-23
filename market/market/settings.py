@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -8,15 +9,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-yxd4b&s5d+sw5pj_qs!8t3jrbvh10300!jab*$e6o@z8=&5@ch'
+with open('/var/www/html/secrets/secret.env', 'r') as fp:
+    SECRET_KEY = json.load(fp).get('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '0.0.0.0',
-    'localhost'
+    'localhost',
+    '.yandex-academy.ru',
+    # '*'
 ]
 
 

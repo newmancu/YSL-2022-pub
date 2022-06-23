@@ -1,6 +1,9 @@
 #!/bin/bash
 
-echo "Flush the manage.py command it any"
+echo "CREATE SECRET_KEY"
+python ./market/create_secret.py
+
+echo "Creating migrations"
 
 while ! python ./market/manage.py makemigrations 2>&1; do
   echo "python manage.py makemigrations"
@@ -14,6 +17,8 @@ while ! python ./market/manage.py migrate  2>&1; do
    sleep 3
 done
 
+
 echo "Django docker is fully configured successfully."
+
 
 exec "$@"

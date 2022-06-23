@@ -4,8 +4,8 @@ services:
   dbpostgres:
     image: postgres
     volumes:
-      - ./dbpostgres/:/var/lib/postgresql/
-      - ./scripts/:/docker-entrypoint-initdb.d/
+      - ./dbpostgres/data/:/var/lib/postgresql/
+      - ./dbpostgres/scripts/:/docker-entrypoint-initdb.d/
     ports:
       - "5433:5433"
     restart: always
@@ -16,10 +16,12 @@ services:
   web:
     build: .
     command: python ./market/manage.py runserver 0.0.0.0:80
+    restart: always
     ports:
       - "80:80"
     volumes:
       - .:/var/www/html
+      - ./market/secrets/:/var/www/html/secrets
     depends_on:
       - dbpostgres
     environment:

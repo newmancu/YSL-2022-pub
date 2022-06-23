@@ -2,15 +2,16 @@ from typing import Iterable, Optional
 from django.db import models
 from django.core.validators import MinValueValidator
 from uuid import uuid4
-# mb pattern?
 
 UNIT_TYPES = (
+  # Types of ShopUnit
   ('OFFER', 'OFFER'),
   ('CATEGORY', 'CATEGORY')
 )
 
 
 class MyMinValueValidator(MinValueValidator):
+  # Price validator
   def compare(self, a, b) -> bool:
     if a is None or b is None:
       return True
@@ -18,6 +19,7 @@ class MyMinValueValidator(MinValueValidator):
 
   
 class ShopUnitBase(models.Model):
+  # DB model that stores all information about ShopUnit
   id = models.UUIDField(
     primary_key=True,
     default=uuid4
@@ -56,17 +58,8 @@ class ShopUnitBase(models.Model):
     return self.__repr__()
 
 
-  def children(self):
-    # useless method
-    if self._type == UNIT_TYPES[0][0]:
-      return None
-    r = list()
-    for c in ShopUnitBase.objects.filter(parent_id=self):
-      _r = c.children()
-      r.append(_r)
-    return r
-
   def first_children(self):
+    # Returns first children of the ShopUnit
     if self._type == UNIT_TYPES[0][0]:
       return None
     r = [c for c in ShopUnitBase.objects.filter(parent_id=self)]
@@ -98,10 +91,12 @@ class ShopUnitBase(models.Model):
     ShopUnitHistory.objects.create(**data)
 
   def deep_delete(self):
+    # delete ShopUnitBase object from the database
     self.__add_to_history()
     self.delete()
 
   def save(self, *args, **kwargs):
+    # save ShopUnitBase object in the database
     self.__add_to_history()
     if self.parent_id is not None:
       c = ShopUnitBase.objects.get(id=self.parent_id.id)
@@ -111,6 +106,7 @@ class ShopUnitBase(models.Model):
 
 
 class ShopUnitHistory(models.Model):
+  # Track ShopUnitUpdates
   row_pk = models.BigAutoField(
     primary_key=True
   )
@@ -144,6 +140,7 @@ class ShopUnitHistory(models.Model):
   )
 
   def is_deleted(self):
+    # check if ShopUnitBase object was deleted
     return ShopUnitBase.objects.filter(id=self.id).first() is None
 
   

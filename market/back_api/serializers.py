@@ -5,12 +5,15 @@ from back_api import models
 
 
 class ShopUnitImportListSerializer(serializers.ListSerializer):
+  # list_serializer_class for ShopUnitImport Serializer
+
   def create(self, validated_data):
     units = [models.ShopUnitBase(**item) for item in validated_data]
     return models.ShopUnitBase.objects.create(units)
 
 
 class ShopUnitImport(serializers.Serializer):
+  # Serializer for ShopUnitImport Schemas
 
   id = ModelField(ShopUnitBase._meta.get_field('id'))
   name = ModelField(ShopUnitBase._meta.get_field('name'))
@@ -33,6 +36,7 @@ class ShopUnitImport(serializers.Serializer):
 
 
 class ShopUnitImportRequest(serializers.Serializer):
+  # Serializer for ShopUnitImportRequest Schemas
   items = ShopUnitImport(many=True)
   updateDate = serializers.DateTimeField()
 
@@ -51,19 +55,14 @@ class ShopUnitImportRequest(serializers.Serializer):
 
 
 class ShopUnitSerializer(serializers.ModelSerializer):
-  """
-  GET - ShopUnit
-  POST - ShopUnitImport
-  POST (List) - ShopInitImportRequest
-  """
-
+  # default ShopUnitBase ModelSerializer
   class Meta:
     fields = '__all__'
     model = models.ShopUnitBase
 
 
 class ShopUnit(serializers.ModelSerializer):
-  # category avg price
+  # Serializer for ShopUnit Schemas
 
   parentId = ModelField(ShopUnitBase._meta.get_field('parent_id'), source='parent_id', allow_null=True)
   type = ModelField(ShopUnitBase._meta.get_field('_type'), source='_type')
@@ -92,19 +91,12 @@ class ShopUnit(serializers.ModelSerializer):
     model = models.ShopUnitBase
     fields = ('id','name','date','parentId','type','price','children')
 
-# class ShopUnitImportRequestSerializer(serializers.Serializer):
-#   items = ShopUnitSerializer()
-#   updateDate = serializers.DateTimeField()
-
-#   def create(self, validated_data):
-#     return super().create(validated_data)
 
 
-
-"""Other classes for statistic"""
-
+"""classes for statistic"""
 
 class ShopInitStatisticUnit(serializers.ModelSerializer):
+  # Serializer for elements of 'sales' URL 
 
   parentId = ModelField(ShopUnitBase._meta.get_field('parent_id'), source='parent_id', allow_null=True)
   type = ModelField(ShopUnitBase._meta.get_field('_type'), source='_type')
@@ -121,11 +113,12 @@ class ShopInitStatisticUnit(serializers.ModelSerializer):
 
 
 class ShopUnitStatisticResponse(serializers.Serializer):
+  # Serializer for Response of 'sales' URL
   items = ShopInitStatisticUnit(many=True)
 
 
 class ShopInitHistoryStatisticUnit(serializers.ModelSerializer):
-
+  # Serializer for elements of 'node_statistic' URL 
   parentId = ModelField(ShopUnitHistory._meta.get_field('parent_id'), source='parent_id', allow_null=True)
   type = ModelField(ShopUnitHistory._meta.get_field('_type'), source='_type')
   date = serializers.SerializerMethodField()
@@ -141,8 +134,11 @@ class ShopInitHistoryStatisticUnit(serializers.ModelSerializer):
 
 
 class ShopUnitHistoryStatisticResponse(serializers.Serializer):
+  # Serializer for Response of 'node_statistic' URL
   items = ShopInitHistoryStatisticUnit(many=True)
 
+
+"""ERRORS RESPONSES"""
 
 ERROR_400 = {
   "code": 400,
