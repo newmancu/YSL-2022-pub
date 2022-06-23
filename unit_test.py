@@ -8,7 +8,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-API_BASEURL = "https://maintaining-2085.usr.yandex-academy.ru"
+API_BASEURL = "http://localhost:80"
 
 ROOT_ID = "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1"
 
@@ -224,7 +224,6 @@ def test_import():
 def test_nodes():
     status, response = request(f"/nodes/{ROOT_ID}", json_response=True)
     # print(json.dumps(response, indent=2, ensure_ascii=False))
-    print(response)
 
     assert status == 200, f"Expected HTTP status code 200, got {status}"
 
