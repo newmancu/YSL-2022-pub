@@ -8,25 +8,77 @@ from back_api import serializers
 from back_api.converters import DateTimeConverter
 
 
+class LeveldDict:
+  # additional structure for '/imports'
+  # there are right ordered items of ShopUnitBase in self.flatten
+  def __init__(self, imports) -> None:
+    self.tree = dict()
+    self.ptree = dict()
+    self.flatten = [] 
+    for item in imports:
+      iid = item['id'] 
+      pid = item['parent_id']
+      
+      self.tree[iid] = item
+      if pid not in self.ptree:
+        self.ptree[pid] = set()
+      self.ptree[pid].add(iid)
+
+    for key in self.tree:
+      if self.tree[key]['parent_id'] not in self.tree:
+        self.__calc_lvl(key)
+
+  def __calc_lvl(self, root_id):
+    queue = [(root_id, 0)]
+
+    while queue:
+      cur = queue.pop(0)
+      
+      dd = cur[1] + 1- len(self.flatten)
+      if dd > 0:
+        self.flatten += [list() for i in range(dd)] 
+      self.flatten[cur[1]].append(self.tree[cur[0]])
+      if cur[0] in self.ptree:
+        queue += list(map(lambda x: (x, cur[1]+1), self.ptree[cur[0]]))
+
+
 class ShopUnitView(APIView):
   # Class based view for '/imports'
   def post(self, request):
     ser = serializers.ShopUnitImportRequest(data=request.data)
     try:
       ser.is_valid(True)
-      # TODO: check and sort ser.data ShopUnits
-      for item in ser.validated_data['items']:
-        instance = models.ShopUnitBase.objects.filter(pk=item['id']).first()
-        model_ser = serializers.ShopUnitSerializer(
-          instance=instance,
-          data={'date':ser.validated_data['updateDate'], **item}
-        )
-        if model_ser.is_valid(True):
-          model_ser.save()
+      valid, validated_data = self._validate_imports(ser.validated_data['items'])
+
+      if not valid:
+        raise serializers.ValidationError()
+      for validation_level in validated_data:
+        for item in validation_level:
+          instance = models.ShopUnitBase.objects.filter(pk=item['id']).first()
+          model_ser = serializers.ShopUnitSerializer(
+            instance=instance,
+            data={'date':ser.validated_data['updateDate'], **item}
+          )
+          if model_ser.is_valid(True):
+            model_ser.save()
       return Response(status=status.HTTP_200_OK)
     except serializers.ValidationError:
       return Response(data=serializers.ERROR_400, status=status.HTTP_400_BAD_REQUEST)
 
+  def _validate_imports(self, imports):
+    # Check imports and sort imports
+    pc_set = self.__sort_imports(imports)
+    if len(pc_set[0]) <= 0:
+      return False, {}
+    for items in pc_set[0]:
+      if items['parent_id'] is not None and \
+        models.ShopUnitBase.objects.filter(pk=items['parent_id']).first() is None:
+        return False, {}
+    return True, pc_set
+
+  def __sort_imports(self, imports):
+    pc_set = LeveldDict(imports)
+    return pc_set.flatten
 
 @api_view(['DELETE'])
 def shop_unit_delete(request, id):

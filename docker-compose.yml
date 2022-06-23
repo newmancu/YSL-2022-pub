@@ -20,7 +20,6 @@ services:
     ports:
       - "80:80"
     volumes:
-      - .:/var/www/html
       - ./market/secrets/:/var/www/html/secrets
     depends_on:
       - dbpostgres
