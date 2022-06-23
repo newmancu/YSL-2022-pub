@@ -22,6 +22,8 @@ class ShopUnitImport(serializers.Serializer):
   price = ModelField(ShopUnitBase._meta.get_field('price'), allow_null=True, required=False)
 
   def validate(self, attrs):
+    if 'price' not in attrs or '_type' not in attrs:
+      raise ValidationError("Не все поля заполнены")
     if attrs['_type'] == models.UNIT_TYPES[0][0] and attrs['price'] is None:
       raise ValidationError("для типа %s поле price не дожлно быть равным None" % models.UNIT_TYPES[0][0])
     elif attrs['_type'] == models.UNIT_TYPES[1][0]:
