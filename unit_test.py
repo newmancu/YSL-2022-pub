@@ -94,7 +94,7 @@ SAME_UUID = {
                 "type": "CATEGORY",
                 "name": "Телевизоры",
                 "id": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
-                "parentId": None
+                "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1"
             },
             {
                 "type": "OFFER",
@@ -121,7 +121,7 @@ OFFER_PRICE = [
                 "type": "CATEGORY",
                 "name": "Телевизоры",
                 "id": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
-                "parentId": None
+                "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1"
             },
             {
                 "type": "OFFER",
@@ -139,14 +139,14 @@ OFFER_PRICE = [
                 "type": "CATEGORY",
                 "name": "Телевизоры",
                 "id": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
-                "parentId": None
+                "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1"
             },
             {
                 "type": "OFFER",
                 "name": "Goldstar 65\" LED UHD LOL Very Smart",
                 "id": "98883e8f-0507-482f-bce2-2fb306cf6483",
                 "parentId": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
-                "price": None
+                "price": "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1"
             },
         ],
         "updateDate": "2022-02-06T12:00:00.000Z"
@@ -183,7 +183,7 @@ CATEG_PRICE = [
                 "type": "CATEGORY",
                 "name": "Телевизоры",
                 "id": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
-                "parentId": None,
+                "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1",
                 "price": 100
             },
         ],
@@ -195,7 +195,7 @@ CATEG_PRICE = [
                 "type": "CATEGORY",
                 "name": "Телевизоры",
                 "id": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
-                "parentId": None,
+                "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1",
                 "price": -100
             },
         ],
@@ -209,7 +209,7 @@ NORM_CATEG_PRICE = {
                 "type": "CATEGORY",
                 "name": "Телевизоры",
                 "id": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
-                "parentId": None,
+                "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1",
                 "price": None
             },
         ],
@@ -217,12 +217,13 @@ NORM_CATEG_PRICE = {
 }
 
 CHANGE_TYPE = {
+    
     "items": [
             {
                 "type": "OFFER",
                 "name": "Телевизоры",
                 "id": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
-                "parentId": None,
+                "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1",
                 "price": 100
             },
         ],
@@ -288,8 +289,81 @@ NULL_NAME = [
         ],
         "updateDate": "2022-02-13T12:00:00.000Z"
     },
-    
 ]
+
+RANDOM_ORDER = {
+    "items": [
+            {
+                "type": "OFFER",
+                "name": "1 Item",
+                "id": "b536444a-4f6f-4009-bfb9-37da4bea30b8",
+                "parentId": "d0fb42fc-c9c2-43ad-9ca1-14ea46ce6f28",
+                "price": 1233
+            },
+            {
+                "type": "CATEGORY",
+                "name": "1 Top category",
+                "id": "b15be624-9913-4120-9b17-8d2251f6589a",
+                "parentId": None,
+            },
+            {
+                "type": "CATEGORY",
+                "name": "1 sub category",
+                "id": "d0fb42fc-c9c2-43ad-9ca1-14ea46ce6f28",
+                "parentId": "b15be624-9913-4120-9b17-8d2251f6589a",
+            },
+            {
+                "type": "CATEGORY",
+                "name": "2 sub category",
+                "id": "fd3215db-6e9e-4db9-b88e-ccf4c6b71630",
+                "parentId": "0ed6e0c1-13cc-4849-971e-f04d8f6d64bd",
+            },
+            {
+                "type": "CATEGORY",
+                "name": "2 Top category",
+                "id": "0ed6e0c1-13cc-4849-971e-f04d8f6d64bd",
+                "parentId": None,
+            },
+            {
+                "type": "CATEGORY",
+                "name": "3 sub category",
+                "id": "442ce7ee-6730-48ef-a982-d48d721e4a7b",
+                "parentId": "0ed6e0c1-13cc-4849-971e-f04d8f6d64bd",
+            },
+
+        ],
+        "updateDate": "2022-02-16T12:00:00.000Z"
+}
+
+RANDOM_TREE_ORDER = {
+    "type": "CATEGORY",
+    "name": "1 Top category",
+    "id": "b15be624-9913-4120-9b17-8d2251f6589a",
+    "price": 1233,
+    "parentId": None,
+    "date": "2022-02-16T12:00:00.000Z",
+    "children": [
+        {
+        "type": "CATEGORY",
+        "name": "1 sub category",
+        "id": "d0fb42fc-c9c2-43ad-9ca1-14ea46ce6f28",
+        "price": 1233,
+        "parentId": "b15be624-9913-4120-9b17-8d2251f6589a",
+        "date": "2022-02-16T12:00:00.000Z",
+        "children": [
+                {
+                    "type": "OFFER",
+                    "name": "1 Item",
+                    "id": "b536444a-4f6f-4009-bfb9-37da4bea30b8",
+                    "parentId": "d0fb42fc-c9c2-43ad-9ca1-14ea46ce6f28",
+                    "price": 1233,
+                    "date": "2022-02-16T12:00:00.000Z",
+                    "children": None,
+                },
+            ]
+        }
+    ]
+}
 
 EXPECTED_TREE = {
     "type": "CATEGORY",
@@ -522,7 +596,7 @@ def test_import_offer_parent():
 
     print("Test import offer parent passed.")
 
-def test_null_name():
+def test_import_null_name():
     for index, batch in enumerate(NULL_NAME):
         print((f'Null name {index}'))
         status, _ = request("/imports", method="POST", data=batch)
@@ -531,20 +605,50 @@ def test_null_name():
 
     print("Test import null name passed.")
 
+def test_random_order_insert():
+    status, _ = request("/imports", method="POST", data=RANDOM_ORDER)
+
+    assert status == 200, f"Expected HTTP status code 200, got {status}"
+
+    status, response = request(f"/nodes/b15be624-9913-4120-9b17-8d2251f6589a", json_response=True)
+    # print(json.dumps(response, indent=2, ensure_ascii=False))
+
+    assert status == 200, f"Expected HTTP status code 200, got {status}"
+
+    deep_sort_children(response)
+    deep_sort_children(RANDOM_TREE_ORDER)
+    if response != RANDOM_TREE_ORDER:
+        print_diff(RANDOM_TREE_ORDER, response)
+        print("Response tree doesn't match expected tree.")
+        sys.exit(1)
+
+    print("Test import random order passed.")
+
+def test_cascade_delete():
+
+    status, response = request(f"/nodes/11883e11-0507-482f-bce2-2fb306cf6483", json_response=True)
+    # print(json.dumps(response, indent=2, ensure_ascii=False))
+
+    assert status == 404, f"Expected HTTP status code 404, got {status}"
+    print("Test cascade delete passed")
+
 def test_all():
     # test_delete()
     test_import()
     test_nodes()
     test_sales()
     test_stats()
-    test_delete()
+
     test_import_same_uuid()
     test_import_offer_price()
     test_import_categ_price()
-
     test_import_change_type()
     test_import_offer_parent()
-    test_null_name()
+    test_import_null_name()
+    test_random_order_insert()
+    test_delete()
+    test_cascade_delete()
+
 
 
 def main():
@@ -561,7 +665,9 @@ def main():
         API_BASEURL = API_BASEURL[:-1]
 
     if test_name is None:
-        test_all()
+        for i in range(1000):
+            print(i)
+            test_all()
     else:
         test_func = globals().get(f"test_{test_name}")
         if not test_func:
