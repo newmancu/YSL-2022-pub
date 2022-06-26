@@ -8,7 +8,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-API_BASEURL = "http://localhost:80"
+API_BASEURL = "https://maintaining-2085.usr.yandex-academy.ru/"
 
 ROOT_ID = "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1"
 
@@ -27,12 +27,6 @@ IMPORT_BATCHES = [
     {
         "items": [
             {
-                "type": "CATEGORY",
-                "name": "Смартфоны",
-                "id": "d515e43f-f3f6-4471-bb77-6b455017a2d2",
-                "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1"
-            },
-            {
                 "type": "OFFER",
                 "name": "jPhone 13",
                 "id": "863e1a7a-1304-42ae-943b-179184c077e3",
@@ -45,7 +39,13 @@ IMPORT_BATCHES = [
                 "id": "b1d8fd7d-2ae3-47d5-b2f9-0f094af800d4",
                 "parentId": "d515e43f-f3f6-4471-bb77-6b455017a2d2",
                 "price": 59999
-            }
+            },
+            {
+                "type": "CATEGORY",
+                "name": "Смартфоны",
+                "id": "d515e43f-f3f6-4471-bb77-6b455017a2d2",
+                "parentId": "069cb8d7-bbdd-47d3-ad8f-82ef4c269df1"
+            },
         ],
         "updateDate": "2022-02-02T12:00:00.000Z"
     },
@@ -86,6 +86,209 @@ IMPORT_BATCHES = [
         ],
         "updateDate": "2022-02-03T15:00:00.000Z"
     }
+]
+
+SAME_UUID = {
+    "items": [
+            {
+                "type": "CATEGORY",
+                "name": "Телевизоры",
+                "id": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
+                "parentId": None
+            },
+            {
+                "type": "OFFER",
+                "name": "Goldstar 65\" LED UHD LOL Very Smart",
+                "id": "98883e8f-0507-482f-bce2-2fb306cf6483",
+                "parentId": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
+                "price": 32999
+            },
+            {
+                "type": "OFFER",
+                "name": "Samson 70\" LED UHD Smart",
+                "id": "98883e8f-0507-482f-bce2-2fb306cf6483",
+                "parentId": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
+                "price": 100
+            },
+        ],
+        "updateDate": "2022-02-05T12:00:00.000Z"
+}
+
+OFFER_PRICE = [
+    {
+    "items": [
+            {
+                "type": "CATEGORY",
+                "name": "Телевизоры",
+                "id": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
+                "parentId": None
+            },
+            {
+                "type": "OFFER",
+                "name": "Goldstar 65\" LED UHD LOL Very Smart",
+                "id": "98883e8f-0507-482f-bce2-2fb306cf6483",
+                "parentId": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
+                "price": -100
+            },
+        ],
+        "updateDate": "2022-02-06T12:00:00.000Z"
+    },
+    {
+    "items": [
+            {
+                "type": "CATEGORY",
+                "name": "Телевизоры",
+                "id": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
+                "parentId": None
+            },
+            {
+                "type": "OFFER",
+                "name": "Goldstar 65\" LED UHD LOL Very Smart",
+                "id": "98883e8f-0507-482f-bce2-2fb306cf6483",
+                "parentId": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
+                "price": None
+            },
+        ],
+        "updateDate": "2022-02-06T12:00:00.000Z"
+    },
+]
+
+GOOD_OFFER_PRICE = [
+    {
+    "items": [
+            {
+                "type": "OFFER",
+                "name": "Goldstar 65\" LED UHD LOL Very Smart",
+                "id": "11883e11-0507-482f-bce2-2fb306cf6483",
+                "parentId": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
+                "price": 0
+            },
+            {
+                "type": "OFFER",
+                "name": "Goldstar 65\" LED UHD LOL Very Smart",
+                "id": "22883e22-0507-482f-bce2-2fb306cf6483",
+                "parentId": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
+                "price": 123
+            },
+        ],
+        "updateDate": "2022-02-06T12:00:00.000Z"
+    },
+
+]
+
+CATEG_PRICE = [
+    {
+    "items": [
+            {
+                "type": "CATEGORY",
+                "name": "Телевизоры",
+                "id": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
+                "parentId": None,
+                "price": 100
+            },
+        ],
+        "updateDate": "2022-02-07T12:00:00.000Z"
+    },
+    {
+    "items": [
+            {
+                "type": "CATEGORY",
+                "name": "Телевизоры",
+                "id": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
+                "parentId": None,
+                "price": -100
+            },
+        ],
+        "updateDate": "2022-02-08T12:00:00.000Z"
+    },
+]
+
+NORM_CATEG_PRICE = {
+    "items": [
+            {
+                "type": "CATEGORY",
+                "name": "Телевизоры",
+                "id": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
+                "parentId": None,
+                "price": None
+            },
+        ],
+        "updateDate": "2022-02-09T12:00:00.000Z"
+}
+
+CHANGE_TYPE = {
+    "items": [
+            {
+                "type": "OFFER",
+                "name": "Телевизоры",
+                "id": "1cc0129a-2bfe-474c-9ee6-d435bf5fc8f2",
+                "parentId": None,
+                "price": 100
+            },
+        ],
+        "updateDate": "2022-02-10T12:00:00.000Z"
+}
+
+OFFER_PARENT = [
+    {
+    "items": [
+            {
+                "type": "OFFER",
+                "name": "NEW TV",
+                "id": "1ca41b96-2bfe-474c-9116-d435bf5fc8f2",
+                "parentId": "b1d8fd7d-2ae3-47d5-b2f9-0f094af800d4",
+                "price": 100
+            },
+        ],
+        "updateDate": "2022-02-11T12:00:00.000Z"
+    },
+    {
+    "items": [
+            {
+                "type": "OFFER",
+                "name": "NEW TV1",
+                "id": "54a41b96-2bfe-474c-9116-d435bf5fc8f2",
+                "parentId": None,
+                "price": 100
+            },
+            {
+                "type": "OFFER",
+                "name": "NEW TV2",
+                "id": "66666666-2bfe-474c-9116-d435bf5fc8f2",
+                "parentId": "54a41b96-2bfe-474c-9116-d435bf5fc8f2",
+                "price": 200
+            },
+        ],
+        "updateDate": "2022-02-12T12:00:00.000Z"
+    },
+    
+]
+
+NULL_NAME = [
+    {
+    "items": [
+            {
+                "type": "OFFER",
+                "name": None,
+                "id": "1ca77b96-2bfe-474c-9116-d435bf5fc8f2",
+                "parentId": None,
+                "price": 100
+            },
+        ],
+        "updateDate": "2022-02-13T12:00:00.000Z"
+    },
+    {
+    "items": [
+            {
+                "type": "CATEGORY",
+                "name": None,
+                "id": "54a77b96-2bfe-474c-9116-d435bf5fc8f2",
+                "parentId": None,
+            },
+        ],
+        "updateDate": "2022-02-13T12:00:00.000Z"
+    },
+    
 ]
 
 EXPECTED_TREE = {
@@ -268,12 +471,80 @@ def test_delete():
     print("Test delete passed.")
 
 
+def test_import_same_uuid():
+    status, _ = request("/imports", method="POST", data=SAME_UUID)
+
+    assert status == 400, f"Expected HTTP status code 400, got {status}"
+
+    print("Test import same uuid passed.")
+
+def test_import_offer_price():
+    for index, batch in enumerate(OFFER_PRICE):
+        print((f'Offer price {index}'))
+        status, _ = request("/imports", method="POST", data=batch)
+
+        assert status == 400, f"Expected HTTP status code 400, got {status}"
+    for index2, batch in enumerate(GOOD_OFFER_PRICE):
+        print((f'Offer price {index+index2+1}'))
+        status, _ = request("/imports", method="POST", data=batch)
+
+        assert status == 200, f"Expected HTTP status code 200, got {status}"
+
+    print("Test import offer price passed.")
+
+def test_import_categ_price():
+    for index, batch in enumerate(CATEG_PRICE):
+        print((f'Categ price {index}'))
+        status, _ = request("/imports", method="POST", data=batch)
+
+        assert status == 400, f"Expected HTTP status code 400, got {status}"
+
+    print((f'Categ price {index+1}'))
+    status, _ = request("/imports", method="POST", data=NORM_CATEG_PRICE)
+
+    assert status == 200, f"Expected HTTP status code 200, got {status}"
+
+    print("Test import categ price passed.")
+
+def test_import_change_type():
+    status, _ = request("/imports", method="POST", data=CHANGE_TYPE)
+
+    assert status == 400, f"Expected HTTP status code 400, got {status}"
+
+    print("Test import change type passed.")
+
+def test_import_offer_parent():
+    for index, batch in enumerate(OFFER_PARENT):
+        print((f'Offer parent {index}'))
+        status, _ = request("/imports", method="POST", data=batch)
+
+        assert status == 400, f"Expected HTTP status code 400, got {status}"
+
+    print("Test import offer parent passed.")
+
+def test_null_name():
+    for index, batch in enumerate(NULL_NAME):
+        print((f'Null name {index}'))
+        status, _ = request("/imports", method="POST", data=batch)
+
+        assert status == 400, f"Expected HTTP status code 400, got {status}"
+
+    print("Test import null name passed.")
+
 def test_all():
+    # test_delete()
     test_import()
     test_nodes()
     test_sales()
     test_stats()
     test_delete()
+    test_import_same_uuid()
+    test_import_offer_price()
+    test_import_categ_price()
+
+    test_import_change_type()
+    test_import_offer_parent()
+    test_null_name()
 
 
 def main():

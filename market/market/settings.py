@@ -123,4 +123,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S.%fZ",
+    'DEFAULT_PAGINATION_CLASS': None,
+    'PAGE_SIZE': None
 }
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 20*1024*1024
+DATA_UPLOAD_MAX_NUMBER_FIELDS = None # may be a problem !!!
