@@ -7,6 +7,7 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+import datetime
 
 API_BASEURL = "https://maintaining-2085.usr.yandex-academy.ru/"
 
@@ -631,6 +632,31 @@ def test_cascade_delete():
 
     assert status == 404, f"Expected HTTP status code 404, got {status}"
     print("Test cascade delete passed")
+
+def test_many_inserts():
+    N = 10000
+    cur = datetime.datetime(2023,8,1,12,0,0,0)
+    for index in range(N):
+        cur2 = cur + datetime.timedelta(1)
+        curf = cur2.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
+        print(f"Importing batch {index}")
+        pdata = {
+            "items": [
+            {
+                "type": "OFFER",
+                "name": f"Item {index}",
+                "id": "11773e77-0507-482f-dce2-" + str(index).zfill(12),
+                "parentId": None,
+                "price": index
+            },
+            ],
+            "updateDate": curf
+        }
+        status, _ = request("/imports", method="POST", data=pdata)
+
+        assert status == 200, f"Expected HTTP status code 200, got {status}"
+
+    print("Test import passed.")
 
 def test_all():
     # test_delete()
